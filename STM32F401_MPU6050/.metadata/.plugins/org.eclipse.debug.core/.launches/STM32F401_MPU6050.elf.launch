@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="com.st.stm32cube.ide.mcu.debug.launch.launchConfigurationType">
+    <intAttribute key="com.st.stm32cube.ide.mcu.debug.launch.formatVersion" value="2"/>
+    <booleanAttribute key="com.st.stm32cube.ide.mcu.debug.launch.useRemoteTarget" value="true"/>
+    <intAttribute key="org.eclipse.cdt.launch.ATTR_BUILD_BEFORE_LAUNCH_ATTR" value="0"/>
+    <stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="STM32F401_MPU6050.elf"/>
+    <stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="STM32F401_MPU6050.elf"/>
+    <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+        <listEntry value="/STM32F401_MPU6050.elf"/>
+    </listAttribute>
+    <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+        <listEntry value="4"/>
+    </listAttribute>
+</launchConfiguration>
