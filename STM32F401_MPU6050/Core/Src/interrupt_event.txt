@@ -1,0 +1,36 @@
+// check the number of bytes in the FIFO (42/28)
+        uint8_t Data;
+        uint8_t data_arr[2];
+        HAL_I2C_Mem_Read_DMA(&hi2c1, MPU6050_ADDR, FIFO_COUNT_H, 1, data_arr, 2);
+        uint16_t FIFO_cnt = data_arr[0] << 8 | data_arr[1];
+
+        printf("%i", FIFO_cnt);
+
+        // extract quaternions from FIFO_buff
+        float q[4];
+        //DMP2_get_quat_32(&hi2c1, q);
+
+        // convert the quaternion into the projection of the vector of gravity
+        float Ax = 2 * (q[1] * q[3] - q[0] * q[2]);
+
+        //float Ay = 2 * (q[0]*q[1] + q[2]*q[3]);
+        float Az = q[0] * q[0] - q[1] * q[1] - q[2] * q[2] + q[3] * q[3];
+
+        uint8_t data[40];
+
+        // read 42/28 (DMP_packet_size) bytes from FIFO into data[] array
+        // ... to speed up the process we read only the first 16 bytes...
+        HAL_I2C_Mem_Read_DMA(&hi2c1, MPU6050_ADDR, FIFO_R_W, 1, data, 40);
+        HAL_Delay(5);
+
+        // Consider pitch (rotation around the Y-axis)
+        float pitch = DEG * atan2f(Ax, Az);
+
+        printf("Pitch = %f", pitch);
+
+        // reset FIFO
+        Data = 0;
+        Data = 1 << FIFO_RESET;
+        HAL_I2C_Mem_Write(&hi2c1, MPU6050_ADDR, USER_CTRL, 1, &Data, 1, i2c_timeout);
+        // Read the INT_STATUS register to reset flags
+        HAL_I2C_Mem_Read_DMA(&hi2c1, MPU6050_ADDR, INT_STATUS, 1, &Data, 1);
